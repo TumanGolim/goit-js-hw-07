@@ -30,14 +30,24 @@ function openLightbox(event) {
     return;
   }
 
-  const imageSrc = event.target.getAttribute("data-original"); 
+  const imageSrc = event.target.getAttribute("data-original");
   const alt = event.target.getAttribute("alt");
 
-  const lightbox = basicLightbox.create(
-    `<img src="${imageSrc}" alt="${alt}" width="800" height="600">`
-  );
+  const lightbox = basicLightbox.create(`<img src="${imageSrc}" alt="${alt}">`);
 
   lightbox.show();
+
+  const closeLightboxOnEscape = (e) => {
+    if (e.key === "Escape") {
+      lightbox.close();
+    }
+  };
+
+  document.addEventListener("keydown", closeLightboxOnEscape);
+
+  lightbox.on("close", () => {
+    document.removeEventListener("keydown", closeLightboxOnEscape);
+  });
 }
 
 gallery.addEventListener("click", openLightbox);
