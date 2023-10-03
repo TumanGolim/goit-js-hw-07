@@ -3,24 +3,13 @@ import { galleryItems } from "./gallery-items.js";
 const gallery = document.querySelector(".gallery");
 
 function createGalleryItem(item) {
-  const galleryItem = document.createElement("li");
-  galleryItem.classList.add("gallery__item");
-
-  const link = document.createElement("a");
-  link.classList.add("gallery__link");
-  link.href = item.original;
-
-  const image = document.createElement("img");
-  image.classList.add("gallery__image");
-  image.src = item.preview;
-  image.alt = item.description;
-
-  image.setAttribute("data-original", item.original);
-
-  link.appendChild(image);
-  galleryItem.appendChild(link);
-
-  return galleryItem;
+  return `
+    <li class="gallery__item">
+      <a class="gallery__link" href="${item.original}">
+        <img class="gallery__image" src="${item.preview}" alt="${item.description}" data-original="${item.original}">
+      </a>
+    </li>
+  `;
 }
 
 function openLightbox(event) {
@@ -52,5 +41,5 @@ function openLightbox(event) {
 
 gallery.addEventListener("click", openLightbox);
 
-const galleryItemsMarkup = galleryItems.map(createGalleryItem);
-gallery.append(...galleryItemsMarkup);
+const galleryItemsMarkup = galleryItems.map(createGalleryItem).join(""); // Використовуємо join для об'єднання рядків
+gallery.innerHTML = galleryItemsMarkup;
